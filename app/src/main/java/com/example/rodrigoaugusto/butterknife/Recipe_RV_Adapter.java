@@ -1,6 +1,8 @@
 package com.example.rodrigoaugusto.butterknife;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,17 +20,16 @@ import butterknife.OnClick;
 public class Recipe_RV_Adapter extends RecyclerView.Adapter<Recipe_RV_Adapter.MyViewHolder> {
 
 
-    Context mContext;
+    //Context mContext;
     List<Recipes> mRecipes;
 
     //@BindView(R.id.cardImage) ImageView mImageCard;
     //@BindView(R.id.cardTxt) TextView mTexttRecipeName;
 
 
-    public Recipe_RV_Adapter(Context context, List<Recipes> recipes) {
-        this.mContext = context;
+    public Recipe_RV_Adapter(List<Recipes> recipes) {
+        //this.mContext = mContext;
         this.mRecipes = recipes;
-
     }
 
 
@@ -36,13 +37,14 @@ public class Recipe_RV_Adapter extends RecyclerView.Adapter<Recipe_RV_Adapter.My
 
         //private ImageView imgCard;
         private TextView txtRecipeName;
-
-
+        private CardView mCardView;
 
         public MyViewHolder(View itemView) {
 
             super(itemView);
             //ButterKnife.bind(this, itemView);
+
+            mCardView = (CardView) itemView.findViewById(R.id.cardRecipe);
             txtRecipeName = (TextView) itemView.findViewById(R.id.cardTxt);
 
         }
@@ -54,7 +56,7 @@ public class Recipe_RV_Adapter extends RecyclerView.Adapter<Recipe_RV_Adapter.My
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View v;
-        v = LayoutInflater.from(mContext).inflate(R.layout.item_recview_recipe, parent, false);
+        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recview_recipe, parent, false);
 
         MyViewHolder vHolder = new MyViewHolder(v);
         return vHolder;
@@ -62,23 +64,29 @@ public class Recipe_RV_Adapter extends RecyclerView.Adapter<Recipe_RV_Adapter.My
     }
 
     @Override
-    public void onBindViewHolder(Recipe_RV_Adapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(Recipe_RV_Adapter.MyViewHolder holder, final int position) {
 
         Recipes recipes = mRecipes.get(position);
         holder.txtRecipeName.setText(recipes.getName());
 
-        //holder..mTexttRecipeName.setText("banana");
-        //holder.
-        //mTexttRecipeName.setText(mRecipes.get(position).getName());
-        //mImageCard.setImageResource(mRecipes.get(position).getImage());
+        holder.mCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = v.getContext();
+                Intent intent = new Intent(context,StepsActivity.class);
+                context.startActivity(intent);
 
+            }
+        });
 
     }
+
+
 
     @Override
     public int getItemCount() {
 
-        //Log.v("RAG", "getItemCount:"+String.valueOf(mRecipes.size()));
+        Log.v("RAG", "getItemCount:"+String.valueOf(mRecipes.size()));
         return mRecipes.size();
     }
 
