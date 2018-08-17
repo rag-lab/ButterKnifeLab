@@ -1,6 +1,9 @@
 package com.example.rodrigoaugusto.butterknife;
 
-public class Steps {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Steps implements Parcelable{
 
     private String id;
     private String shortDescription;
@@ -72,4 +75,48 @@ public class Steps {
         return "ClassPojo [id = "+id+", shortDescription = "+shortDescription+", description = "+description+", videoURL = "+videoURL+", thumbnailURL = "+thumbnailURL+"]";
     }
 
+
+    //
+    //PARCELABLE SHIT
+    //
+    protected Steps(Parcel in) {
+        id = in.readString();
+        shortDescription = in.readString();
+        description = in.readString();
+        videoURL = in.readString();
+        thumbnailURL = in.readString();
+    }
+
+
+    public static final Creator<Steps> CREATOR = new Creator<Steps>() {
+        @Override
+        public Steps createFromParcel(Parcel in) {
+            return new Steps(in);
+        }
+
+        @Override
+        public Steps[] newArray(int size) {
+            return new Steps[size];
+        }
+
+    };
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(shortDescription);
+        dest.writeString(description);
+        dest.writeString(videoURL);
+        dest.writeString(thumbnailURL);
+    }
+
+    //
+    //END PARCELABLE SHIT
+    //
 }

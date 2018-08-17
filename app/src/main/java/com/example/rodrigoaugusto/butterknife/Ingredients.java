@@ -1,6 +1,10 @@
 package com.example.rodrigoaugusto.butterknife;
 
-public class Ingredients {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Ingredients implements Parcelable{
+
 
     private String measure;
     private String ingredient;
@@ -48,5 +52,44 @@ public class Ingredients {
     {
         return "ClassPojo [measure = "+measure+", ingredient = "+ingredient+", quantity = "+quantity+"]";
     }
+
+    //
+    //PARCELABLE SHIT
+    //
+    protected Ingredients(Parcel in) {
+        measure = in.readString();
+        ingredient = in.readString();
+        quantity = in.readString();
+    }
+
+
+    public static final Creator<Ingredients> CREATOR = new Creator<Ingredients>() {
+        @Override
+        public Ingredients createFromParcel(Parcel in) {
+            return new Ingredients(in);
+        }
+
+        @Override
+        public Ingredients[] newArray(int size) {
+            return new Ingredients[size];
+        }
+
+    };
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(measure);
+        dest.writeString(ingredient);
+        dest.writeString(quantity);
+    }
+    //
+    //END PARCELABLE SHIT
+    //
 
 }

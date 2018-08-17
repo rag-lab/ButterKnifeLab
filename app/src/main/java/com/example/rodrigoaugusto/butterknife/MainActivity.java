@@ -45,9 +45,6 @@ public class MainActivity extends AppCompatActivity {
 
         fm.beginTransaction().add(R.id.gridRecipes, mFragmentListRecipes).commit();
 
-
-
-
     }
 
 

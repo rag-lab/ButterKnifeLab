@@ -8,43 +8,34 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
-public class Recipe_RV_Adapter extends RecyclerView.Adapter<Recipe_RV_Adapter.MyViewHolder> {
-
-    //Context mContext;
-    List<Recipes> mRecipes;
-
-    //@BindView(R.id.cardImage) ImageView mImageCard;
-    //@BindView(R.id.cardTxt) TextView mTexttRecipeName;
+public class Steps_RV_Adapter extends RecyclerView.Adapter<Steps_RV_Adapter.MyViewHolder> {
 
 
-    public Recipe_RV_Adapter(List<Recipes> recipes) {
-        //this.mContext = mContext;
-        this.mRecipes = recipes;
+    List<Steps> mSteps;
+
+    public Steps_RV_Adapter(List<Steps> steps) {
+        this.mSteps = steps;
     }
+
 
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         //private ImageView imgCard;
-        private TextView txtRecipeName;
-        private CardView mCardView;
+        private TextView mTxtStepName;
+        private CardView mCardStep;
 
         public MyViewHolder(View itemView) {
 
             super(itemView);
             //ButterKnife.bind(this, itemView);
-
-            mCardView = (CardView) itemView.findViewById(R.id.cardRecipe);
-            txtRecipeName = (TextView) itemView.findViewById(R.id.cardTxt);
+            mCardStep = itemView.findViewById(R.id.cardSteps);
+            mTxtStepName = itemView.findViewById(R.id.cardStepTxt);
 
         }
 
@@ -55,44 +46,45 @@ public class Recipe_RV_Adapter extends RecyclerView.Adapter<Recipe_RV_Adapter.My
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View v;
-        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recview_recipe, parent, false);
+        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recview_steps, parent, false);
 
         MyViewHolder vHolder = new MyViewHolder(v);
         return vHolder;
 
     }
 
+
+
     @Override
-    public void onBindViewHolder(Recipe_RV_Adapter.MyViewHolder holder, final int position) {
+    public void onBindViewHolder(Steps_RV_Adapter.MyViewHolder holder, int position) {
 
-        final Recipes recipes = mRecipes.get(position);
-        holder.txtRecipeName.setText(recipes.getName());
+        final Steps step = mSteps.get(position);
 
-        holder.mCardView.setOnClickListener(new View.OnClickListener() {
+        holder.mTxtStepName.setText(step.getShortDescription());
+
+        holder.mCardStep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                /*
                 Context context = v.getContext();
                 //create Intent
                 Intent intent = new Intent(context,StepsActivity.class);
                 //put recipes inside it
                 intent.putExtra("recipe", recipes);
                 context.startActivity(intent);
-
+                */
+                Log.v("RAG","clicked");
             }
         });
 
     }
 
-
-
     @Override
     public int getItemCount() {
 
-        //Log.v("RAG", "getItemCount:"+String.valueOf(mRecipes.size()));
-        return mRecipes.size();
+        //Log.v("RAG", "getItemCount:"+String.valueOf(mSteps.size()));
+        return mSteps.size();
     }
 
-
 }
-

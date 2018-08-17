@@ -1,6 +1,11 @@
 package com.example.rodrigoaugusto.butterknife;
 
-public class Recipes {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Recipes implements Parcelable {
+
+
 
     //@Serialize
     private String id;
@@ -18,7 +23,6 @@ public class Recipes {
         this.steps = steps;
         this.ingredients = ingredients;
     }
-
 
     public Ingredients[] getIngredients ()
     {
@@ -85,6 +89,53 @@ public class Recipes {
     {
         return "ClassPojo [ingredients = "+ingredients+", id = "+id+", servings = "+servings+", name = "+name+", image = "+image+", steps = "+steps+"]";
     }
+
+
+    //
+    //PARCELABLE SHIT
+    //
+    protected Recipes(Parcel in) {
+        id = in.readString();
+        servings = in.readString();
+        name = in.readString();
+        image = in.readString();
+        steps = in.createTypedArray(Steps.CREATOR);
+        ingredients = in.createTypedArray(Ingredients.CREATOR);
+    }
+
+
+    public static final Creator<Recipes> CREATOR = new Creator<Recipes>() {
+        @Override
+        public Recipes createFromParcel(Parcel in) {
+            return new Recipes(in);
+        }
+
+        @Override
+        public Recipes[] newArray(int size) {
+            return new Recipes[size];
+        }
+
+    };
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(servings);
+        dest.writeString(name);
+        dest.writeString(image);
+        dest.writeTypedArray(steps, 0);
+        dest.writeTypedArray(ingredients, 0);
+    }
+    //
+    //END PARCELABLE SHIT
+    //
+
 
 
 }
